@@ -1,0 +1,17 @@
+{
+	"name": "PL_GitTest",
+	"properties": {
+		"activities": [
+			{
+				"name": "Wait10",
+				"type": "Wait",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 10
+				}
+			}
+		],
+		"annotations": []
+	}
+}

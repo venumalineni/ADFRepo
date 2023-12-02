@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "TestAzureDatafactory0003"
+		},
+		"LS_BlobConnection_connectionString": {
+			"value": "DefaultEndpointsProtocol=https;AccountName=adf1987blobstorage;EndpointSuffix=core.windows.net;"
+		},
+		"LS_BlobTestConnection_connectionString": {
+			"value": "DefaultEndpointsProtocol=https;AccountName=adf1987blobstorage;EndpointSuffix=core.windows.net;"
+		},
+		"LS_Sqldatabase_manual_connectionString": {
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=azuresqlserverdemo0001.database.windows.net;Initial Catalog=azuresqldatabase001;User ID=venu"
+		},
+		"ds_sqltable_connectionString": {
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=azuresqlserverdemo0001.database.windows.net;Initial Catalog=azuresqldatabase001"
+		},
+		"LS_ADLSConnection_properties_typeProperties_url": {
+			"value": "https://adlgen21987.dfs.core.windows.net/"
+		},
+		"LS_ADLSTestConnection_properties_typeProperties_url": {
+			"value": "https://adlgen21987.dfs.core.windows.net/"
+		},
+		"LS_HTTPConnection_properties_typeProperties_url": {
+			"value": "@{linkedService().baseURL}"
+		},
+		"LS_KeyVault_properties_typeProperties_baseUrl": {
+			"value": "https://adfkeyvault00001.vault.azure.net/"
+		},
+		"LS_sqldatabase_properties_typeProperties_connectionString_secretName": {
+			"value": "SQLConnectionString"
+		},
+		"TR_EventTrigger_properties_typeProperties_scope": {
+			"value": "/subscriptions/a26883b9-9e48-4f6c-b647-67a67e2c7f53/resourceGroups/TestRG002/providers/Microsoft.Storage/storageAccounts/adf1987blobstorage"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}

@@ -1,0 +1,10 @@
+{
+	"name": "AzureBlobStorage514",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/a26883b9-9e48-4f6c-b647-67a67e2c7f53/resourceGroups/TestRG002/providers/Microsoft.Storage/storageAccounts/adf1987blobstorage",
+		"groupId": "blob",
+		"fqdns": [
+			"adf1987blobstorage.blob.core.windows.net"
+		]
+	}
+}

@@ -1,0 +1,116 @@
+{
+	"name": "df_dataflowdemo",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_dfdemo",
+						"type": "DatasetReference"
+					},
+					"name": "adzwizzdata"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_outputparquet",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "select"
+				},
+				{
+					"name": "sort1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          properties as string,",
+				"          sales_region as string,",
+				"          year as string,",
+				"          quarter as string,",
+				"          month_number as string,",
+				"          month_name as string,",
+				"          week_number as string,",
+				"          advertiser as string,",
+				"          display_times as string,",
+				"          market as string,",
+				"          medium as string,",
+				"          sitename as string,",
+				"          app_type as string,",
+				"          source as string,",
+				"          format as string,",
+				"          size as string,",
+				"          revenue_category as string,",
+				"          channel as string,",
+				"          platform as string,",
+				"          device as string,",
+				"          device_type as string,",
+				"          impressions as string,",
+				"          cpm as string,",
+				"          unit_code as string,",
+				"          external_spot_rate as string,",
+				"          AE as string,",
+				"          product_code_description as string,",
+				"          order_product_description as string,",
+				"          {order#} as string,",
+				"          inventory_code as string,",
+				"          order_inventory_description as string,",
+				"          rev_code_1 as string,",
+				"          rev_code_2 as string,",
+				"          rev_code_3 as string,",
+				"          rev_code_combo as string,",
+				"          comment as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     inferDriftedColumnTypes: true,",
+				"     ignoreNoFilesFound: false,",
+				"     partitionBy('hash', 1)) ~> adzwizzdata",
+				"adzwizzdata select(mapColumn(",
+				"          advertiser,",
+				"          display_times,",
+				"          market,",
+				"          medium,",
+				"          sitename,",
+				"          app_type,",
+				"          source,",
+				"          format,",
+				"          size,",
+				"          revenue_category,",
+				"          channel,",
+				"          platform,",
+				"          device,",
+				"          device_type,",
+				"          impressions,",
+				"          cpm,",
+				"          unit_code,",
+				"          external_spot_rate,",
+				"          AE,",
+				"          product_code_description,",
+				"          order_product_description",
+				"     ),",
+				"     partitionBy('hash', 1),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select",
+				"select sort(asc(advertiser, true)) ~> sort1",
+				"sort1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     partitionFileNames:['adswizz.parquet'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
+			]
+		}
+	}
+}

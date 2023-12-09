@@ -2,7 +2,7 @@
 	"name": "TR_ScheduleTrigger",
 	"properties": {
 		"annotations": [],
-		"runtimeState": "Stopped",
+		"runtimeState": "Started",
 		"pipelines": [
 			{
 				"pipelineReference": {
@@ -13,6 +13,12 @@
 			{
 				"pipelineReference": {
 					"referenceName": "pl_DynamicPipeline",
+					"type": "PipelineReference"
+				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "PL_dataflow",
 					"type": "PipelineReference"
 				}
 			}

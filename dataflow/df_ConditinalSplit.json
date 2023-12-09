@@ -1,0 +1,87 @@
+{
+	"name": "df_ConditinalSplit",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_splitdata",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_splitdatatoGen2",
+						"type": "DatasetReference"
+					},
+					"name": "sinkuk"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_splitdatatoGen2",
+						"type": "DatasetReference"
+					},
+					"name": "sinkusaind"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_splitdatatoGen2",
+						"type": "DatasetReference"
+					},
+					"name": "sinkdefault"
+				}
+			],
+			"transformations": [
+				{
+					"name": "split1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Row as string,",
+				"          Country as string,",
+				"          Year as string,",
+				"          Product_Type as string,",
+				"          Sales as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 split(Country == 'UK',",
+				"     Country == 'USA' || Country == 'IND',",
+				"     disjoint: false) ~> split1@(UK, USAIND, Othercountries)",
+				"split1@UK sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['uk.csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sinkuk",
+				"split1@USAIND sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['usaind.csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sinkusaind",
+				"split1@Othercountries sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['othercountries.csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sinkdefault"
+			]
+		}
+	}
+}

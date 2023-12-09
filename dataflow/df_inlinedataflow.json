@@ -1,0 +1,88 @@
+{
+	"name": "df_inlinedataflow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "LS_BlobConnection",
+						"type": "LinkedServiceReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_output",
+						"type": "DatasetReference"
+					},
+					"name": "sinkdata"
+				}
+			],
+			"transformations": [
+				{
+					"name": "filtertherows"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          src_id as short,",
+				"          properties as string,",
+				"          sales_region as string,",
+				"          line_start_date as date,",
+				"          line_end_date as date,",
+				"          advertiser as string,",
+				"          display_times as string,",
+				"          market as string,",
+				"          medium as string,",
+				"          sitename as string,",
+				"          app_type as string,",
+				"          source as string,",
+				"          format as string,",
+				"          size as string,",
+				"          revenue_category as string,",
+				"          channel as string,",
+				"          platform as string,",
+				"          device as string,",
+				"          publisher_name as string,",
+				"          device_type as string,",
+				"          impressions as short,",
+				"          cpm as double,",
+				"          unit_code as string,",
+				"          external_spot_rate as double,",
+				"          AE as string,",
+				"          product_code_description as string,",
+				"          order_product_description as string,",
+				"          {order#} as string,",
+				"          inventory_code as string,",
+				"          order_inventory_description as string,",
+				"          rev_code_1 as string,",
+				"          rev_code_2 as string,",
+				"          rev_code_3 as string,",
+				"          rev_code_combo as string,",
+				"          comment as string",
+				"     ),",
+				"     useSchema: false,",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'delimited',",
+				"     container: 'raw',",
+				"     fileName: 'Anagrammedia.csv',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: true,",
+				"     partitionBy('hash', 1)) ~> source1",
+				"source1 filter(src_id>=200) ~> filtertherows",
+				"filtertherows sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sinkdata"
+			]
+		}
+	}
+}

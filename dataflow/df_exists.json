@@ -1,0 +1,132 @@
+{
+	"name": "df_exists",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_exists1",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_exists2",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_existgen2",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "exists1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          src_id as string,",
+				"          properties as string,",
+				"          sales_region as string,",
+				"          line_start_date as string,",
+				"          line_end_date as string,",
+				"          advertiser as string,",
+				"          display_times as string,",
+				"          market as string,",
+				"          medium as string,",
+				"          sitename as string,",
+				"          app_type as string,",
+				"          source as string,",
+				"          format as string,",
+				"          size as string,",
+				"          revenue_category as string,",
+				"          channel as string,",
+				"          platform as string,",
+				"          device as string,",
+				"          publisher_name as string,",
+				"          device_type as string,",
+				"          impressions as string,",
+				"          cpm as string,",
+				"          unit_code as string,",
+				"          external_spot_rate as string,",
+				"          AE as string,",
+				"          product_code_description as string,",
+				"          order_product_description as string,",
+				"          {order#} as string,",
+				"          inventory_code as string,",
+				"          order_inventory_description as string,",
+				"          rev_code_1 as string,",
+				"          rev_code_2 as string,",
+				"          rev_code_3 as string,",
+				"          rev_code_combo as string,",
+				"          comment as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source(output(",
+				"          src_id as string,",
+				"          properties as string,",
+				"          sales_region as string,",
+				"          line_start_date as string,",
+				"          line_end_date as string,",
+				"          advertiser as string,",
+				"          display_times as string,",
+				"          market as string,",
+				"          medium as string,",
+				"          sitename as string,",
+				"          app_type as string,",
+				"          source as string,",
+				"          format as string,",
+				"          size as string,",
+				"          revenue_category as string,",
+				"          channel as string,",
+				"          platform as string,",
+				"          device as string,",
+				"          publisher_name as string,",
+				"          device_type as string,",
+				"          impressions as string,",
+				"          cpm as string,",
+				"          unit_code as string,",
+				"          external_spot_rate as string,",
+				"          AE as string,",
+				"          product_code_description as string,",
+				"          order_product_description as string,",
+				"          {order#} as string,",
+				"          inventory_code as string,",
+				"          order_inventory_description as string,",
+				"          rev_code_1 as string,",
+				"          rev_code_2 as string,",
+				"          rev_code_3 as string,",
+				"          rev_code_combo as string,",
+				"          comment as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source2",
+				"source1, source2 exists(source1@src_id == source2@src_id,",
+				"     negate:false,",
+				"     broadcast: 'auto')~> exists1",
+				"exists1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['existsfile.csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
+			]
+		}
+	}
+}
